@@ -3,8 +3,11 @@ import UIKit
 class ViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
 
     let array = [0,1,2,3,4,5,6,7,8]
+    var listMove = [Int: String]()
     var isFirstPlayerMove = true
     var isGameOver = true
+    var game = GameRules()
+    
     var moveNumber = 0 {
         didSet {
             if(moveNumber == 9) {
@@ -66,10 +69,17 @@ class ViewController: UIViewController,UICollectionViewDataSource, UICollectionV
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-        if !isGameOver {
+        print(indexPath.row)
+//        if(listMove[indexPath.row] != nil) {
+//            print(listMove[indexPath.row])
+//        }
+        if !isGameOver, listMove[indexPath.row] == nil {
             let selectedCell:playerCell = collectionView.cellForItem(at: indexPath) as! playerCell
             print(indexPath)
             moveNumber += 1
+            listMove[indexPath.row] = moveNumber%2 != 0 ? "X" : "0"
+            game.checkWinner(list: listMove)
+//            let GameRules.checkWinner(listMove)
             selectedCell.configure(isFirstPlayer: moveNumber%2 != 0)
         }
     }
@@ -77,6 +87,9 @@ class ViewController: UIViewController,UICollectionViewDataSource, UICollectionV
     func initGame()
     {
         isGameOver = false
+        if !listMove.isEmpty {
+            listMove.removeAll()
+        }
         moveLabel.text = "First player move"
         moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 
