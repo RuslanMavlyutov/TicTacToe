@@ -19,17 +19,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ugn-Hk-5om">
-                                <rect key="frame" x="16" y="20" width="85" height="20.666666666666671"/>
+                                <rect key="frame" x="16" y="20" width="85" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
+                                <color key="textColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f7Z-d5-l6s">
-                                <rect key="frame" x="87" y="278" width="200" height="110"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ylT-r6-XZi">
-                                <rect key="frame" x="15" y="49" width="384" height="617"/>
+                                <rect key="frame" x="15" y="111" width="384" height="555"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="rEB-bV-u9n">
                                     <size key="itemSize" width="120" height="120"/>
@@ -69,28 +65,51 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="CoV-ZI-5BG"/>
                                 </connections>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Second Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ol-hy-Qhe">
-                                <rect key="frame" x="284" y="20" width="109.66666666666669" height="20.666666666666671"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="First player move" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ntA-TD-krM">
+                                <rect key="frame" x="116" y="20" width="130" height="81"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Second Player" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ol-hy-Qhe">
+                                <rect key="frame" x="261.33333333333331" y="20" width="109.66666666666669" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.97680455450000003" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2IU-Qp-Z65">
+                                <rect key="frame" x="16" y="674" width="112" height="30"/>
+                                <state key="normal" title="Start"/>
+                                <connections>
+                                    <action selector="startGame:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fQ5-ox-NCE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Ugn-Hk-5om" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="7oQ-Bj-myS"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ylT-r6-XZi" secondAttribute="bottom" constant="70" id="Cz8-Lq-h7l"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ylT-r6-XZi" secondAttribute="trailing" constant="15" id="JJQ-7I-OYJ"/>
-                            <constraint firstItem="ylT-r6-XZi" firstAttribute="top" secondItem="Ugn-Hk-5om" secondAttribute="bottom" constant="8" id="N29-Qm-yDr"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="3ol-hy-Qhe" secondAttribute="trailing" constant="20.5" id="Nb1-dh-A0p"/>
-                            <constraint firstItem="ylT-r6-XZi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="gB3-Me-FMC"/>
-                            <constraint firstItem="Ugn-Hk-5om" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="gwB-ae-XB6"/>
-                            <constraint firstItem="ylT-r6-XZi" firstAttribute="top" secondItem="3ol-hy-Qhe" secondAttribute="bottom" constant="8.5" id="oiZ-Un-u99"/>
-                            <constraint firstItem="3ol-hy-Qhe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="okd-gP-fek"/>
-                            <constraint firstItem="ylT-r6-XZi" firstAttribute="top" secondItem="Ugn-Hk-5om" secondAttribute="bottom" constant="8.5" id="zgo-JC-qBj"/>
+                            <constraint firstItem="3ol-hy-Qhe" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="1iE-zW-I1f"/>
+                            <constraint firstItem="ylT-r6-XZi" firstAttribute="top" secondItem="3ol-hy-Qhe" secondAttribute="bottom" constant="70" id="1wp-Iw-zYV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2IU-Qp-Z65" secondAttribute="trailing" constant="286" id="7dN-TL-fNo"/>
+                            <constraint firstItem="Ugn-Hk-5om" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Ifv-YW-ZWW"/>
+                            <constraint firstItem="2IU-Qp-Z65" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Ixx-35-tsY"/>
+                            <constraint firstItem="ntA-TD-krM" firstAttribute="leading" secondItem="Ugn-Hk-5om" secondAttribute="trailing" constant="15" id="KZe-sP-Dlf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="ylT-r6-XZi" secondAttribute="trailing" constant="15" id="MjW-pA-dd1"/>
+                            <constraint firstItem="ylT-r6-XZi" firstAttribute="top" secondItem="Ugn-Hk-5om" secondAttribute="bottom" constant="70" id="Shz-4K-Tu6"/>
+                            <constraint firstItem="ylT-r6-XZi" firstAttribute="top" secondItem="Ugn-Hk-5om" secondAttribute="bottom" constant="70" id="bDr-wo-CWk"/>
+                            <constraint firstItem="ylT-r6-XZi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="dkM-8D-HIW"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ylT-r6-XZi" secondAttribute="bottom" constant="70" id="euo-vV-8mZ"/>
+                            <constraint firstItem="2IU-Qp-Z65" firstAttribute="top" secondItem="ylT-r6-XZi" secondAttribute="bottom" constant="8" id="kjs-6I-YnJ"/>
+                            <constraint firstItem="3ol-hy-Qhe" firstAttribute="leading" secondItem="ntA-TD-krM" secondAttribute="trailing" constant="15" id="lGT-xT-QRy"/>
+                            <constraint firstItem="ntA-TD-krM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="mhi-Tf-pLe"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="2IU-Qp-Z65" secondAttribute="bottom" constant="32" id="mns-yX-tk3"/>
+                            <constraint firstItem="ylT-r6-XZi" firstAttribute="top" secondItem="ntA-TD-krM" secondAttribute="bottom" constant="10" id="u1e-gk-kHP"/>
+                            <constraint firstItem="Ugn-Hk-5om" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="v9l-rz-mCO"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="moveLabel" destination="ntA-TD-krM" id="iZz-5q-1WH"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
