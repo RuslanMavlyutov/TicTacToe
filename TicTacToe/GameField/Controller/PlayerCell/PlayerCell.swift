@@ -1,10 +1,10 @@
 import UIKit
 
-class playerCell: UICollectionViewCell {
-    @IBOutlet weak var figureLabel: UILabel!
+class PlayerCell: UICollectionViewCell {
     
-    func configure(isFirstPlayer: Bool) {
-        if isFirstPlayer {
+    @IBOutlet weak var figureLabel: UILabel!
+    func configure(player: Player) {
+        if player == Player.first {
             figureLabel.text = "X"
             contentView.backgroundColor = #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1)
         } else {
