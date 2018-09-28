@@ -1,15 +1,15 @@
 import UIKit
 
+private let SIZE_BOARD = 3
+
 final class ViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
 
-    let array = [0,1,2,3,4,5,6,7,8]
-    var isGameOver = true
-    var game = GameRules()
-    var cellBuilder = CellBuilder(size:3)
+    private var isGameOver = true
+    private var cellBuilder = CellBuilder(size:SIZE_BOARD)
 
     @IBOutlet private weak var startBtn: UIButton!
     @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet weak var moveLabel: UILabel!
+    @IBOutlet private weak var moveLabel: UILabel!
     @IBAction private func startGame(_ sender: UIButton)
     {
         if startBtn.titleLabel?.text == "End game" {
@@ -21,7 +21,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return array.count
+        return SIZE_BOARD * SIZE_BOARD
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
@@ -59,7 +59,6 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
                     moveLabel.text = "\(cellBuilder.checkGameIsOver()) Game over! It's friendship!"
                 }
                 isGameOver = true
-                cellBuilder = CellBuilder(size:3)
                 startBtn.sendActions(for: .touchUpInside)
                 moveLabel.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
                 return
@@ -72,6 +71,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         if isGameOver {
             isGameOver = false
         }
+        cellBuilder = CellBuilder(size: SIZE_BOARD)
         moveLabel.text = "First player move"
         moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 

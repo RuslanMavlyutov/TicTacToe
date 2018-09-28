@@ -75,12 +75,12 @@ final class GameRules {
                     countTacForSecondDiagonalWin += 1
                 }
             }
-            if countTicForVerticalWin == countForWin || countTicForVerticalWin == countForWin ||
+            if countTicForVerticalWin == countForWin || countTicForHorizontalWin == countForWin ||
                 countTicForFirstDiagonalWin == countForWin || countTicForSecondDiagonalWin == countForWin {
                 print("win tic")
                 result = .firstPlayerWinner
                 break
-            } else if countTacForVerticalWin == countForWin || countTacForVerticalWin == countForWin ||
+            } else if countTacForVerticalWin == countForWin || countTacForHorizontalWin == countForWin ||
                 countTacForFirstDiagonalWin == countForWin || countTacForSecondDiagonalWin == countForWin {
                 print("win tac")
                 result = .secondPlayerWinner
