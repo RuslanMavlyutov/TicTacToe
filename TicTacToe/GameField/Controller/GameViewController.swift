@@ -26,12 +26,12 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        reloadIB()
+        reloadUI()
     }
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
-            self.reloadIB()
+            self.reloadUI()
         }, completion: { (UIViewControllerTransitionCoordinatorContext) ->Void in
         })
         super.viewWillTransition(to: size, with: coordinator)
@@ -44,7 +44,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cellName = String(describing: NSStringFromClass(PlayerCell.classForCoder())).components(separatedBy: ".").last!;
+        let cellName = String(describing: PlayerCell.self);
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath) as! PlayerCell
         cell.reset()
 
@@ -95,7 +95,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         startBtn.setTitle(END_GAME, for: .normal)
     }
 
-    func reloadIB() {
+    func reloadUI() {
         let leftSpacing = SPACING
         let rightSpacing = SPACING
         let spacingBetweenCell = (SPACING - 1) * SPACING
