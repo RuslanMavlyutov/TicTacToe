@@ -73,16 +73,14 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
             }
             selectedCell.configure(cell: currentCell)
 
-            if cellBuilder.checkGameIsOver() != .nextMove {
-                if cellBuilder.checkGameIsOver() != .friendship {
-                    moveLabel.text = "\(cellBuilder.checkGameIsOver()) win! Game over!"
-                } else {
-                    moveLabel.text = "\(cellBuilder.checkGameIsOver()) Game over! It's friendship!"
-                }
-                isGameOver = true
-                startBtn.sendActions(for: .touchUpInside)
-                moveLabel.textColor = #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1)
-                return
+            let result = cellBuilder.checkGameIsOver()
+            switch result {
+            case let .winner(player):
+                moveLabel.text = "\(player) win! Game over!"
+            case .friendship:
+                moveLabel.text = "Game over! It's \(result)!"
+            default:
+                break
             }
         }
     }

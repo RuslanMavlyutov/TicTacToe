@@ -11,8 +11,7 @@ enum Player {
 enum GameResult {
     case nextMove
     case friendship
-    case firstPlayerWinner
-    case secondPlayerWinner
+    case winner(Player)
 }
 
 final class GameField {
@@ -78,12 +77,12 @@ final class GameRules {
             if countTicForVerticalWin == countForWin || countTicForHorizontalWin == countForWin ||
                 countTicForFirstDiagonalWin == countForWin || countTicForSecondDiagonalWin == countForWin {
                 print("win tic")
-                result = .firstPlayerWinner
+                result = .winner(.first)
                 break
             } else if countTacForVerticalWin == countForWin || countTacForHorizontalWin == countForWin ||
                 countTacForFirstDiagonalWin == countForWin || countTacForSecondDiagonalWin == countForWin {
                 print("win tac")
-                result = .secondPlayerWinner
+                result = .winner(.second)
                 break
             } else {
                 result = .friendship

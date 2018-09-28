@@ -21,7 +21,7 @@ final class CellBuilder {
             return .nextMove
         }
 
-        if gameRules.checkWinner(game: gameField) == .friendship, moveNumber < countCell {
+        if case .friendship = gameRules.checkWinner(game: gameField), moveNumber < countCell {
             return .nextMove
         }
         return gameRules.checkWinner(game: gameField)
