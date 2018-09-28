@@ -39,9 +39,9 @@ final class CellBuilder {
 
     func fillCell(index: Int) -> Player {
         moveNumber += 1
-        let row = index/3
-        let column = index%3
-        if moveNumber%2 != 0 {
+        let row = index / 3
+        let column = index % 3
+        if moveNumber % 2 != 0 {
             gameField[column,row] = GameFieldCell.tic
             return Player.first
         } else {
