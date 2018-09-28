@@ -5,26 +5,26 @@ final class CellBuilder {
     let gameRules: GameRules
     var moveNumber = 0
     var player = Player.first
-    var endGame = EndGame.draw
+    var endGame = GameResult.friendship
     init(size: Int) {
         gameField = GameField(numberRowAndColumn: size)
         gameRules = GameRules()
     }
 
-    func checkGameIsOver() ->Bool {
+    func checkGameIsOver() ->GameResult {
         if moveNumber < 5 {
-            return false
+            return .nextMove
         }
 
-        if gameRules.checkWinner(game: gameField) == .draw, moveNumber < 9 {
-            return false
+        if gameRules.checkWinner(game: gameField) == .friendship, moveNumber < 9 {
+            return .nextMove
         }
 
-        return true
-    }
-
-    func winner() ->EndGame {
-        return gameRules.checkWinner(game: gameField)
+        if moveNumber < 9 {
+            return gameRules.checkWinner(game: gameField)
+        } else {
+            return .friendship
+        }
     }
 
     func isCellFill(index: Int) ->Bool {

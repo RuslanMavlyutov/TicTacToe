@@ -8,8 +8,11 @@ enum Player {
     case first, second
 }
 
-enum EndGame { //GameResult nextMove, winner
-    case firstPlayer, secondPlayer, draw
+enum GameResult {
+    case nextMove
+    case friendship
+    case firstPlayerWinner
+    case secondPlayerWinner
 }
 
 class GameField {
@@ -34,8 +37,8 @@ class GameField {
 
 final class GameRules {
 
-    func checkWinner(game: GameField) ->EndGame{
-        var endGame = EndGame.draw
+    func checkWinner(game: GameField) ->GameResult{
+        var result = GameResult.friendship
         let countForWin = game.matrixSize
         for i in 0..<countForWin {
             var countTicForVerticalWin = 0
@@ -75,17 +78,17 @@ final class GameRules {
             if countTicForVerticalWin == countForWin || countTicForVerticalWin == countForWin ||
                 countTicForFirstDiagonalWin == countForWin || countTicForSecondDiagonalWin == countForWin {
                 print("win tic")
-                endGame = .firstPlayer
+                result = .firstPlayerWinner
                 break
             } else if countTacForVerticalWin == countForWin || countTacForVerticalWin == countForWin ||
                 countTacForFirstDiagonalWin == countForWin || countTacForSecondDiagonalWin == countForWin {
                 print("win tac")
-                endGame = .secondPlayer
+                result = .secondPlayerWinner
                 break
             } else {
-                endGame = .draw
+                result = .friendship
             }
         }
-        return endGame
+        return result
     }
 }

@@ -52,12 +52,11 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
                 selectedCell.configure(player: Player.second)
             }
 
-            if cellBuilder.checkGameIsOver() {
-                print(cellBuilder.winner())
-                if cellBuilder.winner() != .draw {
-                    moveLabel.text = "\(cellBuilder.winner()) win! Game over!"
+            if cellBuilder.checkGameIsOver() != .nextMove {
+                if cellBuilder.checkGameIsOver() != .friendship {
+                    moveLabel.text = "\(cellBuilder.checkGameIsOver()) win! Game over!"
                 } else {
-                    moveLabel.text = "\(cellBuilder.winner()) Game over! It's friendship!"
+                    moveLabel.text = "\(cellBuilder.checkGameIsOver()) Game over! It's friendship!"
                 }
                 isGameOver = true
                 cellBuilder = CellBuilder(size:3)
