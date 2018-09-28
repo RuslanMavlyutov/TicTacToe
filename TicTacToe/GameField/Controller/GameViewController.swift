@@ -1,24 +1,29 @@
 import UIKit
 
-private let SIZE_BOARD = 3
-private let SPACING = 3
-private let FIRST_PLAYER_MOVE = "First player move"
-private let SECOND_PLAYER_MOVE = "Second player move"
-private let START_GAME = "Start game"
-private let END_GAME = "End game"
-
 final class ViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
 
+    struct Strings {
+        static let firstPlayerMove = "First player move"
+        static let secondPlayerMove = "Second player move"
+        static let startGame = "Start game"
+        static let endGame = "End game"
+    }
+
+    struct Constants {
+        static let sizeBoard = 3
+        static let spacing = 3
+    }
+
     private var isGameOver = true
-    private var cellBuilder = CellBuilder(size:SIZE_BOARD)
+    private var cellBuilder = CellBuilder(size:Constants.sizeBoard)
 
     @IBOutlet private weak var startBtn: UIButton!
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var moveLabel: UILabel!
     @IBAction private func startGame(_ sender: UIButton)
     {
-        if startBtn.titleLabel?.text == END_GAME {
-            startBtn.setTitle(START_GAME, for: .normal)
+        if startBtn.titleLabel?.text == Strings.endGame {
+            startBtn.setTitle(Strings.startGame, for: .normal)
         } else {
             initGame()
         }
@@ -39,7 +44,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return SIZE_BOARD * SIZE_BOARD
+        return Constants.sizeBoard * Constants.sizeBoard
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
@@ -60,10 +65,10 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         if !cellBuilder.isCellFill(index: indexPath.row) {
             let currentCell = cellBuilder.fillCell(index: indexPath.row)
             if currentCell == .tic {
-                moveLabel.text = SECOND_PLAYER_MOVE
+                moveLabel.text = Strings.secondPlayerMove
                 moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
             } else {
-                moveLabel.text = FIRST_PLAYER_MOVE
+                moveLabel.text = Strings.firstPlayerMove
                 moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
             }
             selectedCell.configure(cell: currentCell)
@@ -87,29 +92,29 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         if isGameOver {
             isGameOver = false
         }
-        cellBuilder = CellBuilder(size: SIZE_BOARD)
-        moveLabel.text = FIRST_PLAYER_MOVE
+        cellBuilder = CellBuilder(size: Constants.sizeBoard)
+        moveLabel.text = Strings.firstPlayerMove
         moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 
         collectionView.reloadData()
-        startBtn.setTitle(END_GAME, for: .normal)
+        startBtn.setTitle(Strings.endGame, for: .normal)
     }
 
     func reloadUI() {
-        let leftSpacing = SPACING
-        let rightSpacing = SPACING
-        let spacingBetweenCell = (SPACING - 1) * SPACING
-        let fullSpacing = leftSpacing + rightSpacing + spacingBetweenCell + SIZE_BOARD - 1
-        let itemSize = (UIScreen.main.bounds.width) / CGFloat(SIZE_BOARD) - CGFloat(fullSpacing)
+        let leftSpacing = Constants.spacing
+        let rightSpacing = Constants.spacing
+        let spacingBetweenCell = (Constants.spacing - 1) * Constants.spacing
+        let fullSpacing = leftSpacing + rightSpacing + spacingBetweenCell + Constants.sizeBoard - 1
+        let itemSize = (UIScreen.main.bounds.width) / CGFloat(Constants.sizeBoard) - CGFloat(fullSpacing)
         print(UIScreen.main.bounds.width)
         print(itemSize)
 
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsetsMake(0, CGFloat(SPACING), 0, CGFloat(SPACING))
+        layout.sectionInset = UIEdgeInsetsMake(0, CGFloat(Constants.spacing), 0, CGFloat(Constants.spacing))
         layout.itemSize = CGSize(width: itemSize, height: itemSize)
 
-        layout.minimumInteritemSpacing = CGFloat(SPACING)
-        layout.minimumLineSpacing = CGFloat(SPACING)
+        layout.minimumInteritemSpacing = CGFloat(Constants.spacing)
+        layout.minimumLineSpacing = CGFloat(Constants.spacing)
 
         collectionView.collectionViewLayout = layout
     }
