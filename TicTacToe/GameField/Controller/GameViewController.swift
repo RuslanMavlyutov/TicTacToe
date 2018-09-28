@@ -1,6 +1,7 @@
 import UIKit
 
 private let SIZE_BOARD = 3
+private let SPACING = 3
 private let FIRST_PLAYER_MOVE = "First player move"
 private let SECOND_PLAYER_MOVE = "Second player move"
 private let START_GAME = "Start game"
@@ -21,6 +22,19 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         } else {
             initGame()
         }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        reloadIB()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { (UIViewControllerTransitionCoordinatorContext) -> Void in
+            self.reloadIB()
+        }, completion: { (UIViewControllerTransitionCoordinatorContext) ->Void in
+        })
+        super.viewWillTransition(to: size, with: coordinator)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
@@ -79,6 +93,25 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
         collectionView.reloadData()
         startBtn.setTitle(END_GAME, for: .normal)
+    }
+
+    func reloadIB() {
+        let leftSpacing = SPACING
+        let rightSpacing = SPACING
+        let spacingBetweenCell = (SPACING - 1) * SPACING
+        let fullSpacing = leftSpacing + rightSpacing + spacingBetweenCell + SIZE_BOARD - 1
+        let itemSize = (UIScreen.main.bounds.width) / CGFloat(SIZE_BOARD) - CGFloat(fullSpacing)
+        print(UIScreen.main.bounds.width)
+        print(itemSize)
+
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsetsMake(0, CGFloat(SPACING), 0, CGFloat(SPACING))
+        layout.itemSize = CGSize(width: itemSize, height: itemSize)
+
+        layout.minimumInteritemSpacing = CGFloat(SPACING)
+        layout.minimumLineSpacing = CGFloat(SPACING)
+
+        collectionView.collectionViewLayout = layout
     }
 }
 
