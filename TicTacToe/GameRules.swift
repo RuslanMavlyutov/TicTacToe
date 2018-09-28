@@ -15,14 +15,14 @@ enum GameResult {
     case secondPlayerWinner
 }
 
-class GameField {
+final class GameField {
     private var storage: [[GameFieldCell]] = []
     let matrixSize: Int
     
-    init(numberRowAndColumn: Int) {
-        matrixSize = numberRowAndColumn
-        storage = Array(repeating: Array(repeating: GameFieldCell.empty, count: numberRowAndColumn),
-                        count: numberRowAndColumn)
+    init(size: Int) {
+        matrixSize = size
+        storage = Array(repeating: Array(repeating: GameFieldCell.empty, count: size),
+                        count: size)
     }
 
     subscript(column: Int, row: Int) -> GameFieldCell {

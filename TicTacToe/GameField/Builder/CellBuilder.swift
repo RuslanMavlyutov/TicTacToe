@@ -12,7 +12,7 @@ final class CellBuilder {
         self.size = size
         countCell = size * size
         MIN_NUMBER_FOR_CHECK_WINNER = size + size - 1
-        gameField = GameField(numberRowAndColumn: size)
+        gameField = GameField(size: size)
         gameRules = GameRules()
     }
 
@@ -30,7 +30,7 @@ final class CellBuilder {
     func isCellFill(index: Int) ->Bool {
         let row = index / size
         let column = index % size
-        if gameField[column, row] != GameFieldCell.empty {
+        if gameField[column, row] != .empty {
             return true
         } else {
             return false
@@ -42,10 +42,10 @@ final class CellBuilder {
         let row = index / size
         let column = index % size
         if moveNumber % 2 != 0 {
-            gameField[column,row] = GameFieldCell.tic
+            gameField[column,row] = .tic
             return Player.first
         } else {
-            gameField[column,row] = GameFieldCell.tac
+            gameField[column,row] = .tac
             return Player.second
         }
     }
