@@ -17,7 +17,7 @@ enum GameResult {
 
 final class GameField {
     private var storage: [[GameFieldCell]] = []
-    let matrixSize: Int
+    fileprivate let matrixSize: Int
     
     init(size: Int) {
         matrixSize = size

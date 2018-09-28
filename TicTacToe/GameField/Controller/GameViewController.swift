@@ -1,6 +1,10 @@
 import UIKit
 
 private let SIZE_BOARD = 3
+private let FIRST_PLAYER_MOVE = "First player move"
+private let SECOND_PLAYER_MOVE = "Second player move"
+private let START_GAME = "Start game"
+private let END_GAME = "End game"
 
 final class ViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
 
@@ -12,8 +16,8 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
     @IBOutlet private weak var moveLabel: UILabel!
     @IBAction private func startGame(_ sender: UIButton)
     {
-        if startBtn.titleLabel?.text == "End game" {
-            startBtn.setTitle("Start", for: .normal)
+        if startBtn.titleLabel?.text == END_GAME {
+            startBtn.setTitle(START_GAME, for: .normal)
         } else {
             initGame()
         }
@@ -26,11 +30,8 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PlayerCell
-        cell.contentView.backgroundColor = UIColor(red: 102/256, green: 255/256, blue: 255/256, alpha: 0.66)
-        if !(cell.figureLabel.text?.isEmpty)! {
-            cell.figureLabel.text = ""
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PlayerCell", for: indexPath) as! PlayerCell
+        cell.reset()
 
         return cell
     }
@@ -42,15 +43,15 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
             return
         }
         if !cellBuilder.isCellFill(index: indexPath.row) {
-            if cellBuilder.fillCell(index: indexPath.row) == Player.first {
-                moveLabel.text = "Second player move"
+            let currentCell = cellBuilder.fillCell(index: indexPath.row)
+            if currentCell == .tic {
+                moveLabel.text = SECOND_PLAYER_MOVE
                 moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-                selectedCell.configure(player: Player.first)
             } else {
-                moveLabel.text = "First player move"
+                moveLabel.text = FIRST_PLAYER_MOVE
                 moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-                selectedCell.configure(player: Player.second)
             }
+            selectedCell.configure(cell: currentCell)
 
             if cellBuilder.checkGameIsOver() != .nextMove {
                 if cellBuilder.checkGameIsOver() != .friendship {
@@ -72,11 +73,11 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
             isGameOver = false
         }
         cellBuilder = CellBuilder(size: SIZE_BOARD)
-        moveLabel.text = "First player move"
+        moveLabel.text = FIRST_PLAYER_MOVE
         moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 
         collectionView.reloadData()
-        startBtn.setTitle("End game", for: .normal)
+        startBtn.setTitle(END_GAME, for: .normal)
     }
 }
 

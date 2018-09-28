@@ -37,16 +37,15 @@ final class CellBuilder {
         }
     }
 
-    func fillCell(index: Int) -> Player {
+    func fillCell(index: Int) -> GameFieldCell {
         moveNumber += 1
         let row = index / size
         let column = index % size
         if moveNumber % 2 != 0 {
             gameField[column,row] = .tic
-            return Player.first
         } else {
             gameField[column,row] = .tac
-            return Player.second
         }
+        return gameField[column,row]
     }
 }
