@@ -19,7 +19,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     @IBOutlet private weak var startBtn: UIButton!
     @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet private weak var moveLabel: UILabel!
+    @IBOutlet weak var moveLabel: UILabel!
     @IBAction private func startGame(_ sender: UIButton)
     {
         if startBtn.titleLabel?.text == Strings.endGame {
@@ -51,7 +51,9 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
     {
         let cellName = String(describing: PlayerCell.self);
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath) as! PlayerCell
-        cell.reset()
+        let row = indexPath.row / Constants.sizeBoard
+        let column = indexPath.row % Constants.sizeBoard
+        cell.configure(cell: cellBuilder.gameFieldBoard()[column, row])
 
         return cell
     }
@@ -64,13 +66,13 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         }
         if !cellBuilder.isCellFill(index: indexPath.row) {
             let currentCell = cellBuilder.fillCell(index: indexPath.row)
-            if currentCell == .tic {
-                moveLabel.text = Strings.secondPlayerMove
-                moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-            } else {
-                moveLabel.text = Strings.firstPlayerMove
-                moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            }
+//            if currentCell == .tic {
+//                moveLabel.text = Strings.secondPlayerMove
+//                moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+//            } else {
+//                moveLabel.text = Strings.firstPlayerMove
+//                moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+//            }
             selectedCell.configure(cell: currentCell)
 
             let result = cellBuilder.checkGameIsOver()

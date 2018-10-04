@@ -48,4 +48,8 @@ final class CellBuilder {
         }
         return gameField[column,row]
     }
+
+    func gameFieldBoard() -> GameField {
+        return gameField
+    }
 }
