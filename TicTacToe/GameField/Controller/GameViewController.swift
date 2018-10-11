@@ -10,12 +10,12 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
     }
 
     struct Constants {
-        static let sizeBoard = 3
-        static let spacing = 3
+        static let sizeBoard: CGFloat = 3
+        static let spacing: CGFloat = 3
     }
 
     private var isGameOver = true
-    private var cellBuilder = CellBuilder(size:Constants.sizeBoard)
+    private var cellBuilder = CellBuilder(size:Int(Constants.sizeBoard))
 
     @IBOutlet private weak var startBtn: UIButton!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -44,15 +44,15 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
     {
-        return Constants.sizeBoard * Constants.sizeBoard
+        return Int(Constants.sizeBoard * Constants.sizeBoard)
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
         let cellName = String(describing: PlayerCell.self);
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath) as! PlayerCell
-        let row = indexPath.row / Constants.sizeBoard
-        let column = indexPath.row % Constants.sizeBoard
+        let row = indexPath.row / Int(Constants.sizeBoard)
+        let column = indexPath.row % Int(Constants.sizeBoard)
         cell.configure(cell: cellBuilder.gameFieldBoard()[column, row])
 
         return cell
@@ -94,7 +94,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         if isGameOver {
             isGameOver = false
         }
-        cellBuilder = CellBuilder(size: Constants.sizeBoard)
+        cellBuilder = CellBuilder(size: Int(Constants.sizeBoard))
         moveLabel.text = Strings.firstPlayerMove
         moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 
@@ -107,16 +107,16 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         let rightSpacing = Constants.spacing
         let spacingBetweenCell = (Constants.spacing - 1) * Constants.spacing
         let fullSpacing = leftSpacing + rightSpacing + spacingBetweenCell + Constants.sizeBoard - 1
-        let itemSize = (UIScreen.main.bounds.width) / CGFloat(Constants.sizeBoard) - CGFloat(fullSpacing)
+        let itemSize = UIScreen.main.bounds.width / Constants.sizeBoard - fullSpacing
         print(UIScreen.main.bounds.width)
         print(itemSize)
 
         let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsetsMake(0, CGFloat(Constants.spacing), 0, CGFloat(Constants.spacing))
+        layout.sectionInset = UIEdgeInsetsMake(0, Constants.spacing, 0, Constants.spacing)
         layout.itemSize = CGSize(width: itemSize, height: itemSize)
 
-        layout.minimumInteritemSpacing = CGFloat(Constants.spacing)
-        layout.minimumLineSpacing = CGFloat(Constants.spacing)
+        layout.minimumInteritemSpacing = Constants.spacing
+        layout.minimumLineSpacing = Constants.spacing
 
         collectionView.collectionViewLayout = layout
     }
