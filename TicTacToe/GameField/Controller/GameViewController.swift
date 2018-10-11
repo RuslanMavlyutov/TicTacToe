@@ -1,6 +1,6 @@
 import UIKit
 
-final class ViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
+final class ViewController: UIViewController {
     struct Strings {
         static let firstPlayerMove = "First player move"
         static let secondPlayerMove = "Second player move"
@@ -24,7 +24,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     @IBOutlet private weak var startBtn: UIButton!
     @IBOutlet private weak var collectionView: UICollectionView!
-    @IBOutlet weak var moveLabel: UILabel!
+    @IBOutlet private weak var moveLabel: UILabel!
     @IBAction private func startGame(_ sender: UIButton)
     {
         if startBtn.titleLabel?.text == Strings.endGame {
@@ -47,45 +47,6 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         super.viewWillTransition(to: size, with: coordinator)
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
-    {
-        return Int(Constants.sizeBoard * Constants.sizeBoard)
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
-    {
-        let cellName = String(describing: PlayerCell.self);
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath) as! PlayerCell
-        let index = indexPath.rowAndColumn(forSize: Int(Constants.sizeBoard))
-        cell.configure(cell: gameField[index.column, index.row])
-
-        return cell
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
-    {
-        guard !isGameOver else {
-            return
-        }
-
-        let index = indexPath.rowAndColumn(forSize: Constants.sizeBoard)
-        if gameField.isCellFilled(atRow: index.row, atColumn: index.column) {
-            return
-        } else {
-            let selectedCell:PlayerCell = collectionView.cellForItem(at: indexPath) as! PlayerCell
-            gameField.fillCell(atRow: index.row, atColumn: index.column)
-            if gameField[index.column, index.row] == .tic {
-                moveLabel.text = Strings.secondPlayerMove
-                moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-            } else {
-                moveLabel.text = Strings.firstPlayerMove
-                moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            }
-            selectedCell.configure(cell: gameField[index.column, index.row])
-            updateStatusLabel()
-        }
-    }
-    
     private func updateStatusLabel() {
         print("test")
         let result = gameRules.checkWinner(game: gameField)
@@ -131,6 +92,49 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         layout.minimumLineSpacing = Constants.spacing
 
         collectionView.collectionViewLayout = layout
+    }
+}
+
+extension ViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int
+    {
+        return Int(Constants.sizeBoard * Constants.sizeBoard)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
+        let cellName = String(describing: PlayerCell.self);
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath) as! PlayerCell
+        let index = indexPath.rowAndColumn(forSize: Int(Constants.sizeBoard))
+        cell.configure(cell: gameField[index.column, index.row])
+
+        return cell
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+    {
+        guard !isGameOver else {
+            return
+        }
+
+        let index = indexPath.rowAndColumn(forSize: Constants.sizeBoard)
+        if gameField.isCellFilled(atRow: index.row, atColumn: index.column) {
+            return
+        } else {
+            let selectedCell:PlayerCell = collectionView.cellForItem(at: indexPath) as! PlayerCell
+            gameField.fillCell(atRow: index.row, atColumn: index.column)
+            if gameField[index.column, index.row] == .tic {
+                moveLabel.text = Strings.secondPlayerMove
+                moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+            } else {
+                moveLabel.text = Strings.firstPlayerMove
+                moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            }
+            selectedCell.configure(cell: gameField[index.column, index.row])
+            updateStatusLabel()
+        }
     }
 }
 
