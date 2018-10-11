@@ -60,27 +60,29 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-        let selectedCell:PlayerCell = collectionView.cellForItem(at: indexPath) as! PlayerCell
-        if isGameOver {
+        guard !isGameOver else {
             return
         }
         if !cellBuilder.isCellFill(index: indexPath.row) {
+            let selectedCell:PlayerCell = collectionView.cellForItem(at: indexPath) as! PlayerCell
             let currentCell = cellBuilder.fillCell(index: indexPath.row)
-//            if currentCell == .tic {
-//                moveLabel.text = Strings.secondPlayerMove
-//                moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-//            } else {
-//                moveLabel.text = Strings.firstPlayerMove
-//                moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-//            }
+            if currentCell == .tic {
+                moveLabel.text = Strings.secondPlayerMove
+                moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+            } else {
+                moveLabel.text = Strings.firstPlayerMove
+                moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            }
             selectedCell.configure(cell: currentCell)
 
             let result = cellBuilder.checkGameIsOver()
             switch result {
             case let .winner(player):
                 moveLabel.text = "\(player) win! Game over!"
+                isGameOver = true
             case .friendship:
                 moveLabel.text = "Game over! It's \(result)!"
+                isGameOver = true
             default:
                 break
             }
