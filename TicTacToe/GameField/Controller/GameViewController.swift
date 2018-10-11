@@ -1,7 +1,6 @@
 import UIKit
 
 final class ViewController: UIViewController,UICollectionViewDataSource, UICollectionViewDelegate {
-
     struct Strings {
         static let firstPlayerMove = "First player move"
         static let secondPlayerMove = "Second player move"
@@ -10,12 +9,18 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
     }
 
     struct Constants {
-        static let sizeBoard: CGFloat = 3
+        static let sizeBoard = 3
         static let spacing: CGFloat = 3
     }
 
     private var isGameOver = true
-    private var cellBuilder = CellBuilder(size:Int(Constants.sizeBoard))
+    private var gameField = GameField(size: Constants.sizeBoard) {
+        didSet {
+            collectionView.reloadData()
+            updateStatusLabel()
+        }
+    }
+    private let gameRules: GameRules = GameRules()
 
     @IBOutlet private weak var startBtn: UIButton!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -52,7 +57,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         let cellName = String(describing: PlayerCell.self);
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath) as! PlayerCell
         let index = indexPath.rowAndColumn(forSize: Int(Constants.sizeBoard))
-        cell.configure(cell: cellBuilder.gameFieldBoard()[index.column, index.row])
+        cell.configure(cell: gameField[index.column, index.row])
 
         return cell
     }
@@ -62,38 +67,46 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         guard !isGameOver else {
             return
         }
-        if !cellBuilder.isCellFilled(index: indexPath.row) {
+
+        let index = indexPath.rowAndColumn(forSize: Constants.sizeBoard)
+        if gameField.isCellFilled(atRow: index.row, atColumn: index.column) {
+            return
+        } else {
             let selectedCell:PlayerCell = collectionView.cellForItem(at: indexPath) as! PlayerCell
-            let currentCell = cellBuilder.fillCell(index: indexPath.row)
-            if currentCell == .tic {
+            gameField.fillCell(atRow: index.row, atColumn: index.column)
+            if gameField[index.column, index.row] == .tic {
                 moveLabel.text = Strings.secondPlayerMove
                 moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
             } else {
                 moveLabel.text = Strings.firstPlayerMove
                 moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
             }
-            selectedCell.configure(cell: currentCell)
-
-            let result = cellBuilder.checkGameIsOver()
-            switch result {
-            case let .winner(player):
-                moveLabel.text = "\(player) win! Game over!"
-                isGameOver = true
-            case .friendship:
-                moveLabel.text = "Game over! It's \(result)!"
-                isGameOver = true
-            default:
-                break
-            }
+            selectedCell.configure(cell: gameField[index.column, index.row])
+            updateStatusLabel()
         }
     }
     
+    private func updateStatusLabel() {
+        print("test")
+        let result = gameRules.checkWinner(game: gameField)
+        switch result {
+        case let .winner(player):
+            moveLabel.text = "\(player) win! Game over!"
+            isGameOver = true
+        case .friendship:
+            moveLabel.text = "Game over! It's \(result)!"
+            isGameOver = true
+        default:
+            break
+        }
+    }
+
     func initGame()
     {
         if isGameOver {
             isGameOver = false
         }
-        cellBuilder = CellBuilder(size: Int(Constants.sizeBoard))
+        gameField = GameField(size: Constants.sizeBoard)
         moveLabel.text = Strings.firstPlayerMove
         moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 
@@ -105,8 +118,8 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         let leftSpacing = Constants.spacing
         let rightSpacing = Constants.spacing
         let spacingBetweenCell = (Constants.spacing - 1) * Constants.spacing
-        let fullSpacing = leftSpacing + rightSpacing + spacingBetweenCell + Constants.sizeBoard - 1
-        let itemSize = UIScreen.main.bounds.width / Constants.sizeBoard - fullSpacing
+        let fullSpacing = leftSpacing + rightSpacing + spacingBetweenCell + CGFloat(Constants.sizeBoard) - 1
+        let itemSize = (UIScreen.main.bounds.width) / CGFloat(Constants.sizeBoard) - fullSpacing
         print(UIScreen.main.bounds.width)
         print(itemSize)
 

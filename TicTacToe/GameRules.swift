@@ -16,10 +16,13 @@ enum GameResult {
 
 final class GameField {
     private var storage: [[GameFieldCell]] = []
+    var moveNumber = 0
     fileprivate let matrixSize: Int
-    
+    let MIN_NUMBER_FOR_CHECK_WINNER: Int
+
     init(size: Int) {
         matrixSize = size
+        MIN_NUMBER_FOR_CHECK_WINNER = size + size - 1
         storage = Array(repeating: Array(repeating: GameFieldCell.empty, count: size),
                         count: size)
     }
@@ -32,11 +35,30 @@ final class GameField {
             storage[column][row] = value
         }
     }
+
+    func isCellFilled(atRow row: Int, atColumn column: Int) ->Bool {
+        if self[column, row] != .empty {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    func fillCell(atRow row: Int, atColumn column: Int) {
+        moveNumber += 1
+        if moveNumber % 2 != 0 {
+            self[column, row] = .tic
+        } else {
+            self[column, row] = .tac
+        }
+    }
 }
 
 final class GameRules {
-
     func checkWinner(game: GameField) ->GameResult{
+        if game.moveNumber < game.MIN_NUMBER_FOR_CHECK_WINNER {
+            return .nextMove
+        }
         var result = GameResult.friendship
         let countForWin = game.matrixSize
         for i in 0..<countForWin {
@@ -85,7 +107,11 @@ final class GameRules {
                 result = .winner(.second)
                 break
             } else {
-                result = .friendship
+                if game.moveNumber < game.matrixSize * game.matrixSize {
+                    result = .nextMove
+                } else {
+                    result = .friendship
+                }
             }
         }
         return result
