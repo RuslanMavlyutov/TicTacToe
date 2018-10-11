@@ -51,9 +51,8 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
     {
         let cellName = String(describing: PlayerCell.self);
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellName, for: indexPath) as! PlayerCell
-        let row = indexPath.row / Int(Constants.sizeBoard)
-        let column = indexPath.row % Int(Constants.sizeBoard)
-        cell.configure(cell: cellBuilder.gameFieldBoard()[column, row])
+        let index = indexPath.rowAndColumn(forSize: Int(Constants.sizeBoard))
+        cell.configure(cell: cellBuilder.gameFieldBoard()[index.column, index.row])
 
         return cell
     }
@@ -63,7 +62,7 @@ final class ViewController: UIViewController,UICollectionViewDataSource, UIColle
         guard !isGameOver else {
             return
         }
-        if !cellBuilder.isCellFill(index: indexPath.row) {
+        if !cellBuilder.isCellFilled(index: indexPath.row) {
             let selectedCell:PlayerCell = collectionView.cellForItem(at: indexPath) as! PlayerCell
             let currentCell = cellBuilder.fillCell(index: indexPath.row)
             if currentCell == .tic {

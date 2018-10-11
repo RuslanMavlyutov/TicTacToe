@@ -27,7 +27,7 @@ final class CellBuilder {
         return gameRules.checkWinner(game: gameField)
     }
 
-    func isCellFill(index: Int) ->Bool {
+    func isCellFilled(index: Int) ->Bool {
         let row = index / size
         let column = index % size
         if gameField[column, row] != .empty {

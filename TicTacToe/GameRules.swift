@@ -91,3 +91,9 @@ final class GameRules {
         return result
     }
 }
+
+extension IndexPath {
+    func rowAndColumn(forSize size: Int) -> (row: Int, column: Int) {
+        return (row / size, row % size)
+    }
+}
