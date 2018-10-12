@@ -4,17 +4,13 @@ enum GameFieldCell {
     case empty, tic, tac
 }
 
-enum Player {
-    case first, second
-}
-
 enum GameResult {
     case nextMove
     case friendship
     case winner(Player)
 }
 
-final class GameField {
+struct GameField {
     private var storage: [[GameFieldCell]] = []
     var moveNumber = 0
     fileprivate let matrixSize: Int
@@ -33,23 +29,15 @@ final class GameField {
         }
         set(value) {
             storage[column][row] = value
+            moveNumber += 1
         }
     }
 
-    func isCellFilled(atRow row: Int, atColumn column: Int) ->Bool {
+    func isCellFilled(atRow row: Int, column: Int) ->Bool {
         if self[column, row] != .empty {
             return true
         } else {
             return false
-        }
-    }
-
-    func fillCell(atRow row: Int, atColumn column: Int) {
-        moveNumber += 1
-        if moveNumber % 2 != 0 {
-            self[column, row] = .tic
-        } else {
-            self[column, row] = .tac
         }
     }
 }

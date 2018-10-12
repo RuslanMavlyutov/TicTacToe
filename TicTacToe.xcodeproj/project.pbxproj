@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31365300216F8BF8005CDD4F /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313652FF216F8BF8005CDD4F /* Player.swift */; };
 		318EAA132153CDCB00662FBC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318EAA122153CDCB00662FBC /* AppDelegate.swift */; };
 		318EAA152153CDCB00662FBC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318EAA142153CDCB00662FBC /* GameViewController.swift */; };
 		318EAA182153CDCB00662FBC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 318EAA162153CDCB00662FBC /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		313652FF216F8BF8005CDD4F /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		318EAA0F2153CDCB00662FBC /* TicTacToe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TicTacToe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		318EAA122153CDCB00662FBC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		318EAA142153CDCB00662FBC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 				318EAA272154F38600662FBC /* GameField */,
 				318EAA162153CDCB00662FBC /* Main.storyboard */,
 				318EAA2A2155379E00662FBC /* GameRules.swift */,
+				313652FF216F8BF8005CDD4F /* Player.swift */,
 				318EAA242153CE1300662FBC /* Supporting Files */,
 				318EAA1E2153CDCD00662FBC /* Info.plist */,
 			);
@@ -177,6 +180,7 @@
 				318EAA152153CDCB00662FBC /* GameViewController.swift in Sources */,
 				318EAA262154C7A700662FBC /* PlayerCell.swift in Sources */,
 				318EAA132153CDCB00662FBC /* AppDelegate.swift in Sources */,
+				31365300216F8BF8005CDD4F /* Player.swift in Sources */,
 				318EAA2B2155379E00662FBC /* GameRules.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

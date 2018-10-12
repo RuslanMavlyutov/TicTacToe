@@ -21,6 +21,7 @@ final class ViewController: UIViewController {
         }
     }
     private let gameRules: GameRules = GameRules()
+    private var playerTrigger = PlayerTrigger()
 
     @IBOutlet private weak var startBtn: UIButton!
     @IBOutlet private weak var collectionView: UICollectionView!
@@ -48,7 +49,16 @@ final class ViewController: UIViewController {
     }
 
     private func updateStatusLabel() {
-        print("test")
+        switch playerTrigger.current() {
+        case .first:
+            moveLabel.text = Strings.secondPlayerMove
+            moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
+            break;
+        case .second:
+            moveLabel.text = Strings.firstPlayerMove
+            moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
+            break;
+        }
         let result = gameRules.checkWinner(game: gameField)
         switch result {
         case let .winner(player):
@@ -68,6 +78,7 @@ final class ViewController: UIViewController {
             isGameOver = false
         }
         gameField = GameField(size: Constants.sizeBoard)
+        playerTrigger = PlayerTrigger()
         moveLabel.text = Strings.firstPlayerMove
         moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
 
@@ -120,20 +131,10 @@ extension ViewController: UICollectionViewDelegate {
         }
 
         let index = indexPath.rowAndColumn(forSize: Constants.sizeBoard)
-        if gameField.isCellFilled(atRow: index.row, atColumn: index.column) {
+        if gameField.isCellFilled(atRow: index.row, column: index.column) {
             return
         } else {
-            let selectedCell:PlayerCell = collectionView.cellForItem(at: indexPath) as! PlayerCell
-            gameField.fillCell(atRow: index.row, atColumn: index.column)
-            if gameField[index.column, index.row] == .tic {
-                moveLabel.text = Strings.secondPlayerMove
-                moveLabel.textColor = #colorLiteral(red: 0, green: 0.9768045545, blue: 0, alpha: 1)
-            } else {
-                moveLabel.text = Strings.firstPlayerMove
-                moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
-            }
-            selectedCell.configure(cell: gameField[index.column, index.row])
-            updateStatusLabel()
+            gameField[index.column, index.row] = playerTrigger.trigger().symbol
         }
     }
 }
