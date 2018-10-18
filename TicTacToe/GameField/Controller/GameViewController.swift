@@ -13,11 +13,11 @@ final class ViewController: UIViewController {
         static let spacing: CGFloat = 3
     }
 
-    private var isGameOver = true
     private var gameField = GameField(size: Constants.sizeBoard) {
         didSet {
             collectionView.reloadData()
-            updateStatusLabel()
+            let result = gameRules.checkWinner(game: gameField)
+            updateStatusLabel(gameResult: result, currentPlayer: playerTrigger.current())
         }
     }
     private let gameRules: GameRules = GameRules()
@@ -48,7 +48,19 @@ final class ViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
     }
 
-    private func updateStatusLabel() {
+    private func updateStatusLabel(gameResult: GameResult, currentPlayer: Player) {
+        switch gameResult {
+        case let .winner(player):
+            moveLabel.text = "\(player) win! Game over!"
+        case .friendship:
+            moveLabel.text = "Game over! It's \(gameResult)!"
+        case .nextMove:
+            updateStatusLabel(for: currentPlayer)
+        }
+    }
+
+    private func updateStatusLabel(for player: Player)
+    {
         switch playerTrigger.current() {
         case .first:
             moveLabel.text = Strings.secondPlayerMove
@@ -59,24 +71,10 @@ final class ViewController: UIViewController {
             moveLabel.textColor = #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1)
             break;
         }
-        let result = gameRules.checkWinner(game: gameField)
-        switch result {
-        case let .winner(player):
-            moveLabel.text = "\(player) win! Game over!"
-            isGameOver = true
-        case .friendship:
-            moveLabel.text = "Game over! It's \(result)!"
-            isGameOver = true
-        default:
-            break
-        }
     }
 
     func initGame()
     {
-        if isGameOver {
-            isGameOver = false
-        }
         gameField = GameField(size: Constants.sizeBoard)
         playerTrigger = PlayerTrigger()
         moveLabel.text = Strings.firstPlayerMove
@@ -126,12 +124,9 @@ extension ViewController: UICollectionViewDataSource {
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     {
-        guard !isGameOver else {
-            return
-        }
-
         let index = indexPath.rowAndColumn(forSize: Constants.sizeBoard)
-        if gameField.isCellFilled(atRow: index.row, column: index.column) {
+        let result = gameRules.checkWinner(game: gameField)
+        if result != .nextMove || gameField.isCellFilled(atRow: index.row, column: index.column) {
             return
         } else {
             gameField[index.column, index.row] = playerTrigger.trigger().symbol

@@ -10,6 +10,21 @@ enum GameResult {
     case winner(Player)
 }
 
+extension GameResult: Equatable {
+    static func == (lhs: GameResult, rhs: GameResult) ->Bool {
+        switch (lhs, rhs) {
+        case (.nextMove, .nextMove):
+            return true
+        case (.friendship, .friendship):
+            return true
+        case (.winner, .winner):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 struct GameField {
     private var storage: [[GameFieldCell]] = []
     var moveNumber = 0
